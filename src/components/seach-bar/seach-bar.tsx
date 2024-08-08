@@ -2,7 +2,8 @@ import React from 'react';
 import { TextField, Button } from '@mui/material';
 import styles from './seach-bar.module.scss';
 import { setSearchTerm, searchRepositories, selectSearchTerm } from '../../store/slices/githubSlice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
 export const SearchBar: React.FC = () => {
   const dispatch = useAppDispatch();

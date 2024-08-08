@@ -19,7 +19,8 @@ import {
     selectSearchTerm,
 } from '../../store/slices/githubSlice';
 import styles from './repo-list.module.scss';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
 export const RepoList: React.FC = () => {
     const dispatch = useAppDispatch();
