@@ -15,7 +15,7 @@ export const SearchBar: React.FC = () => {
     };
 
     return (
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
             <TextField
                 type="text"
                 id="seachRepo"
@@ -47,7 +47,7 @@ export const SearchBar: React.FC = () => {
                 value={searchRepo}
                 onChange={(e) => setSearchRepo(e.target.value)}
             />
-            <Button variant="contained" sx={{
+            <Button type="submit" variant="contained" sx={{
               padding: '8px 22px 8px 22px',
               borderRadius: '4px',
               letterSpacing: '1.17px'

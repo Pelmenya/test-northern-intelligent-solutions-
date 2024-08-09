@@ -6,6 +6,7 @@ import {
     CircularProgress,
     Alert,
     Button,
+    Typography,
 } from '@mui/material';
 import {
     selectSearchResults,
@@ -35,22 +36,36 @@ export const RepoList: React.FC = () => {
 
     const handleNextPage = () => {
         if (endCursor) {
-            dispatch(searchRepositories({ repoName: searchTerm , first: 10,  after: 10 }));
+            dispatch(
+                searchRepositories({
+                    repoName: searchTerm,
+                    first: 10,
+                    after: 10,
+                })
+            );
         }
     };
 
     const handlePreviousPage = () => {
         if (startCursor) {
-            dispatch(searchRepositories({ repoName: searchTerm, first: 10,  after: 10 }));
+            dispatch(
+                searchRepositories({
+                    repoName: searchTerm,
+                    first: 10,
+                    after: 10,
+                })
+            );
         }
     };
 
     return (
         <main className={styles.main}>
-            {searchLoading && <CircularProgress />}
-            {searchError && <Alert severity="error">{searchError}</Alert>}
             {searchResults.length ? (
                 <>
+                    {searchLoading && <CircularProgress />}
+                    {searchError && (
+                        <Alert severity="error">{searchError}</Alert>
+                    )}
                     <List>
                         {searchResults.map((repo) => (
                             <ListItem
@@ -86,7 +101,11 @@ export const RepoList: React.FC = () => {
                     </div>
                 </>
             ) : (
-                <div></div>
+                <div className={styles.promt}>
+                    <Typography sx={{ fontSize: '46px' }}>
+                        Добро пожаловать
+                    </Typography>
+                </div>
             )}
         </main>
     );
