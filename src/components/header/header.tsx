@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './header.module.scss';
 import { Box } from '@mui/material';
+import { SearchBar } from '../seach-bar/seach-bar';
 
 export const Header: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ export const Header: React.FC = () => {
         backgroundColor: 'secondary.main'
       }}>
         <h1 className={styles.h1}>GitHub Viewer</h1>
-
+        <SearchBar />
       </Box>
     </header>
   );

@@ -1,4 +1,4 @@
-import { alpha, createTheme, hslToRgb } from '@mui/material';
+import { alpha, createTheme } from '@mui/material';
 
 const greyBase = '#000000';
 const greyMain = alpha(greyBase, 0.92);
