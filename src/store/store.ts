@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import githubReducer from './slices/githubSlice';
+import { githubReducer } from './slices/github-slice';
 import logger from 'redux-logger';
 
 

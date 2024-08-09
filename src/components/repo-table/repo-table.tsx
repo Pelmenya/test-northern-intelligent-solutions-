@@ -9,10 +9,10 @@ import {
     TableBody,
     Paper,
 } from '@mui/material';
-import { selectSearchResults } from '../../store/slices/githubSlice';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 import styles from './repo-table.module.scss';
+import { selectSearchResults } from '../../store/selectors/github-selectors';
 
 export const RepoTable: React.FC = () => {
     const searchResults = useAppSelector(selectSearchResults);
