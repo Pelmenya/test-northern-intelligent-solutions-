@@ -1,5 +1,5 @@
 import { Header } from '../header/header';
-import { RepoList } from '../repo-list/repo-list';
+import { RepoTable } from '../repo-table/repo-table';
 import styles from './app.module.scss';
 import { Box } from '@mui/material';
 
@@ -16,7 +16,7 @@ export const App: React.FC = () => {
                     }}
                 >
                     <Header />
-                    <RepoList />
+                    <RepoTable />
                 </Box>
             </div>
         </div>
