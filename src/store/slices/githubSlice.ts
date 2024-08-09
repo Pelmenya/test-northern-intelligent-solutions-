@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { request, gql } from 'graphql-request';
+import { gql, GraphQLClient } from 'graphql-request';
 import type { RootState } from '../store';
 
 interface GithubState {
@@ -30,25 +30,111 @@ const initialState: GithubState = {
   hasPreviousPage: false,
 };
 
-// Асинхронный thunk для загрузки данных из GitHub GraphQL API
-export const fetchGithubData = createAsyncThunk('github/fetchData', async () => {
-  const endpoint = 'https://api.github.com/graphql';
+const endpoint = '/graphql';
+
+const token = process.env.REACT_APP_GITHUB_TOKEN;
+const client = new GraphQLClient(endpoint, {
+  headers: {
+
+    Authorization: `Bearer ${token}`,
+
+  },
+  credentials: 'include'
+});
+
+
+const fetchGithubData = async ({ searchTerm, after, before }: { searchTerm: string; after?: string; before?: string }) => {
   const query = gql`
-    {
-      viewer {
-        login
+    query($searchTerm: String!, $after: String, $before: String) {
+      search(query: $searchTerm, type: REPOSITORY, first: 10, after: $after, before: $before) {
+        edges {
+          node {
+            ... on Repository {
+              name
+              owner {
+                login
+              }
+              stargazerCount
+              url
+            }
+          }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+          startCursor
+          hasPreviousPage
+        }
       }
     }
   `;
-  const response = await request(endpoint, query);
-  return response;
-});
+  const variables: { searchTerm: string; after?: string; before?: string } = { searchTerm, after, before };
+  const response = await client.request(endpoint, query, variables);
+  return { results: response.search.edges.map((edge: any) => edge.node), pageInfo: response.search.pageInfo };
+}
+const search = async (repoName: string, first = 10, after = null) => {
+  const query = gql`
+    query($name: String!, $first: Int!, $after: String) {
+      search(query: $name, type: REPOSITORY, first: $first, after: $after) {
+        repositoryCount
+        pageInfo {
+          endCursor
+          hasNextPage
+          startCursor
+          hasPreviousPage
+        }
+        edges {
+          node {
+            ... on Repository {
+              name
+              owner {
+                login
+              }
+              description
+              url
+              createdAt
+              updatedAt
+              stargazerCount
+              forkCount
+              languages(first: 5) {
+                edges {
+                  node {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    name: repoName,
+    first,
+    after,
+  };
+
+  try {
+    const data = await client.request(query, variables);
+    console.log(JSON.stringify(data, null, 2));
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Пример вызова функции для поиска репозиториев с названием 'graphql-request'
+search('graphql-request');
+
+
+
 
 // Асинхронный thunk для поиска репозиториев с пагинацией
 export const searchRepositories = createAsyncThunk(
   'github/searchRepositories',
   async ({ searchTerm, after, before }: { searchTerm: string; after?: string; before?: string }) => {
-    const endpoint = 'https://api.github.com/graphql';
     const query = gql`
       query($searchTerm: String!, $after: String, $before: String) {
         search(query: $searchTerm, type: REPOSITORY, first: 10, after: $after, before: $before) {
@@ -73,8 +159,8 @@ export const searchRepositories = createAsyncThunk(
         }
       }
     `;
-    const variables = { searchTerm, after, before };
-    const response = await request(endpoint, query, variables);
+    const variables: { searchTerm: string; after?: string; before?: string } = { searchTerm, after, before };
+    const response = await client.request(endpoint, query, variables);
     return { results: response.search.edges.map((edge: any) => edge.node), pageInfo: response.search.pageInfo };
   }
 );
@@ -89,18 +175,6 @@ const githubSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchGithubData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchGithubData.fulfilled, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.data = action.payload;
-      })
-      .addCase(fetchGithubData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch data';
-      })
       .addCase(searchRepositories.pending, (state) => {
         state.searchLoading = true;
         state.searchError = null;

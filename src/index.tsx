@@ -4,14 +4,20 @@ import { App } from '../src/components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import { theme } from './theme/theme';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
     <React.StrictMode>
+        <CssBaseline />
         <Provider store={store}>
-            <App />
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
         </Provider>
     </React.StrictMode>
 );
