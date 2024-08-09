@@ -7,7 +7,7 @@ export const theme = createTheme({
     palette: {
         text: {
             primary: '#4F4F4F',
-            secondary: '#00000',
+            secondary: '#000000',
             disabled: '#ffffff',
         },
         background: {
@@ -22,7 +22,7 @@ export const theme = createTheme({
         },
         secondary: {
             main: '#00838F',
-            dark: greyMain
+            dark: '#fff'
         },
     },
 });

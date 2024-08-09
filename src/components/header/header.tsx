@@ -9,7 +9,10 @@ export const Header: React.FC = () => {
       <Box sx={{
         width: '100%',
         height: '80px',
-        backgroundColor: 'secondary.main'
+        backgroundColor: 'secondary.main',
+        paddingLeft: '32px',
+        display: 'flex',
+        alignItems: 'center',
       }}>
         <h1 className={styles.h1}>GitHub Viewer</h1>
         <SearchBar />
