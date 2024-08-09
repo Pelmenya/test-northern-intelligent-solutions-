@@ -1,12 +1,13 @@
-import { Header } from '../header/header';
-import { RepoTable } from '../repo-table/repo-table';
-import styles from './app.module.scss';
 import { Box } from '@mui/material';
+import { Header } from '../header/header';
+import { Main } from '../main/main';
+
+import styles from './app.module.scss';
 
 export const App: React.FC = () => {
     return (
         <div className={styles.bg}>
-            <div className={styles.main}>
+            <div className={styles.wrapper}>
                 <Box
                     sx={{
                         width: '100%',
@@ -16,7 +17,7 @@ export const App: React.FC = () => {
                     }}
                 >
                     <Header />
-                    <RepoTable />
+                    <Main />
                 </Box>
             </div>
         </div>
