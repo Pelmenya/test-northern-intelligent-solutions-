@@ -1,13 +1,13 @@
 import { alpha, createTheme } from '@mui/material';
 
 const greyBase = '#000000';
-const greyMain = alpha(greyBase, 0.92);
+const greyMain = alpha(greyBase, 0.87);
 
 export const theme = createTheme({
     palette: {
         text: {
             primary: '#4F4F4F',
-            secondary: '#000000',
+            secondary: greyMain,
             disabled: '#ffffff',
         },
         background: {

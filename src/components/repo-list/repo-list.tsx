@@ -35,54 +35,59 @@ export const RepoList: React.FC = () => {
 
     const handleNextPage = () => {
         if (endCursor) {
-            dispatch(searchRepositories({ searchTerm, after: endCursor }));
+            dispatch(searchRepositories({ repoName: searchTerm , first: 10,  after: 10 }));
         }
     };
 
     const handlePreviousPage = () => {
         if (startCursor) {
-            dispatch(searchRepositories({ searchTerm, before: startCursor }));
+            dispatch(searchRepositories({ repoName: searchTerm, first: 10,  after: 10 }));
         }
     };
 
     return (
-        <div className={styles.repoList}>
+        <main className={styles.main}>
             {searchLoading && <CircularProgress />}
             {searchError && <Alert severity="error">{searchError}</Alert>}
-            <List>
-                {searchResults.map((repo) => (
-                    <ListItem
-                        key={repo.url}
-                        button
-                        component="a"
-                        href={repo.url}
-                    >
-                        <ListItemText
-                            primary={repo.name}
-                            secondary={`Owner: ${repo.owner.login} | Stars: ${repo.stargazerCount}`}
-                        />
-                    </ListItem>
-                ))}
-            </List>
-
-            <div className={styles.pagination}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handlePreviousPage}
-                    disabled={!hasPreviousPage || searchLoading}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNextPage}
-                    disabled={!hasNextPage || searchLoading}
-                >
-                    Next
-                </Button>
-            </div>
-        </div>
+            {searchResults.length ? (
+                <>
+                    <List>
+                        {searchResults.map((repo) => (
+                            <ListItem
+                                key={repo.url}
+                                button
+                                component="a"
+                                href={repo.url}
+                            >
+                                <ListItemText
+                                    primary={repo.name}
+                                    secondary={`Owner: ${repo.owner.login} | Stars: ${repo.stargazerCount}`}
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <div className={styles.pagination}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handlePreviousPage}
+                            disabled={!hasPreviousPage || searchLoading}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleNextPage}
+                            disabled={!hasNextPage || searchLoading}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                </>
+            ) : (
+                <div></div>
+            )}
+        </main>
     );
 };

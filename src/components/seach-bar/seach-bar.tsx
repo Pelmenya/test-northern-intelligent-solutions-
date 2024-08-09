@@ -1,20 +1,17 @@
-import React from 'react';
-import { TextField, Button, FormControl, OutlinedInput } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button } from '@mui/material';
 import styles from './seach-bar.module.scss';
 import {
-    setSearchTerm,
     searchRepositories,
-    selectSearchTerm,
 } from '../../store/slices/githubSlice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { useAppSelector } from '../../hooks/use-app-selector';
 
 export const SearchBar: React.FC = () => {
     const dispatch = useAppDispatch();
-    const searchTerm = useAppSelector(selectSearchTerm);
-
+    const [searchRepo, setSearchRepo] = useState('');
+    
     const handleSearch = () => {
-        dispatch(searchRepositories({ searchTerm }));
+        dispatch(searchRepositories({ repoName : searchRepo, first: 10, after: null }));
     };
 
     return (
@@ -33,6 +30,7 @@ export const SearchBar: React.FC = () => {
                             height: '42px',
                             padding: '0',
                             paddingLeft: '16px',
+                            color: 'text.secondary'
                         },
                     },
                     {
@@ -46,8 +44,8 @@ export const SearchBar: React.FC = () => {
                     },
                 ]}
                 placeholder="Введите поисковый запрос"
-                value={searchTerm}
-                onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+                value={searchRepo}
+                onChange={(e) => setSearchRepo(e.target.value)}
             />
             <Button variant="contained" sx={{
               padding: '8px 22px 8px 22px',

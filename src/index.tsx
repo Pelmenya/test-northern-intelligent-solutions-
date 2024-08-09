@@ -14,8 +14,6 @@ import '@fontsource/roboto/700.css';
 
 import { theme } from './theme/theme';
 
-
-
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
