@@ -10,3 +10,4 @@ export const selectHasNextPage = (state: RootState) => state.github.hasNextPage;
 export const selectStartCursor = (state: RootState) => state.github.startCursor;
 export const selectHasPreviousPage = (state: RootState) => state.github.hasPreviousPage;
 export const selectRowsPerPage = (state: RootState) => state.github.rowsPerPage;
+export const selectRepositoryCount = (state: RootState) => state.github.repositoryCount;

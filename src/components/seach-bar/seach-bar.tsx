@@ -11,7 +11,7 @@ export const SearchBar: React.FC = () => {
     const [searchRepo, setSearchRepo] = useState('');
     
     const handleSearch = () => {
-        dispatch(searchRepositories({ name : searchRepo, first: 5, after: null }));
+        dispatch(searchRepositories({ name : searchRepo, first: 10, after: null }));
     };
 
     return (
@@ -25,8 +25,8 @@ export const SearchBar: React.FC = () => {
                             backgroundColor: 'background.paper',
                             borderRadius: '4px',
                             fontWeight: 500,
-                            maxWidth: '912px',
-                            width: '912px',
+                            maxWidth: '896px',
+                            width: '896px',
                             height: '42px',
                             padding: '0',
                             paddingLeft: '16px',

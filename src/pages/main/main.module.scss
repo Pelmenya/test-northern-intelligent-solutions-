@@ -1,0 +1,18 @@
+.main {
+    background-color: #fff;
+    min-height: calc(100vh - 112px);
+    height: calc(100vh - 112px);
+}
+
+.leftSideBar {
+    height: 100%;
+    padding-left: 32px;
+    padding-top: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: space-between;
+    width: 960px;
+    max-width: 960px;
+}

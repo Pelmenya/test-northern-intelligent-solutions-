@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { Header } from '../header/header';
-import { Main } from '../main/main';
+import { Main } from '../../pages/main/main';
 
 import styles from './app.module.scss';
 

@@ -16,6 +16,7 @@ interface GithubState {
   startCursor: string | null;
   hasPreviousPage: boolean;
   rowsPerPage: number;
+  repositoryCount: number | null;
 }
 
 const initialState: GithubState = {
@@ -28,8 +29,9 @@ const initialState: GithubState = {
   hasNextPage: false,
   startCursor: null,
   hasPreviousPage: false,
-  rowsPerPage: initialRowsPerPage
-};
+  rowsPerPage: initialRowsPerPage,
+  repositoryCount: null 
+}
 
 
 
@@ -53,13 +55,14 @@ const githubSlice = createSlice({
         state.searchLoading = true;
         state.searchError = null;
       })
-      .addCase(searchRepositories.fulfilled, (state, action: PayloadAction<{ results: TRepoNode[]; pageInfo: TRepoPageInfo }>) => {
+      .addCase(searchRepositories.fulfilled, (state, action: PayloadAction<{ results: TRepoNode[]; pageInfo: TRepoPageInfo; repositoryCount: number}>) => {
         state.searchLoading = false;
         state.searchResults = action.payload.results;
         state.endCursor = action.payload.pageInfo.endCursor;
         state.hasNextPage = action.payload.pageInfo.hasNextPage;
         state.startCursor = action.payload.pageInfo.startCursor;
         state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage;
+        state.repositoryCount = action.payload.repositoryCount;
       })
       .addCase(searchRepositories.rejected, (state, action) => {
         state.searchLoading = false;
