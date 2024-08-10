@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { client } from '../../gql/client';
 import { searchRepositoriesQuery } from '../../gql/queries/seach-repositories-query';
 import { TRepoNode, TRepoPageInfo, TSeachRepositoriesResponse } from '../../types/t-seach-repositories-response';
+import { initialRowsPerPage } from '../../utils/constants/initilal-rows-per-page';
+import { TSeachRepositoriesDTO } from '../../types/t-seach-repositories-dto';
 
 interface GithubState {
   loading: boolean;
@@ -13,9 +15,8 @@ interface GithubState {
   hasNextPage: boolean;
   startCursor: string | null;
   hasPreviousPage: boolean;
+  rowsPerPage: number;
 }
-
-
 
 const initialState: GithubState = {
   loading: false,
@@ -27,6 +28,7 @@ const initialState: GithubState = {
   hasNextPage: false,
   startCursor: null,
   hasPreviousPage: false,
+  rowsPerPage: initialRowsPerPage
 };
 
 
@@ -34,10 +36,8 @@ const initialState: GithubState = {
 // Асинхронный thunk для поиска репозиториев с пагинацией
 export const searchRepositories = createAsyncThunk(
   'github/searchRepositories',
-  async ({ repoName: name, first, after }: { repoName: string, first: number | null, after: number | null }) => {
-    const variables: { name: string, first: number | null, after: number | null } = { name, first, after };
-    const response: TSeachRepositoriesResponse = await client.request(searchRepositoriesQuery, variables);
-    console.log(response.search.edges.map((edge) => edge.node))
+  async (dto: TSeachRepositoriesDTO) => {
+    const response: TSeachRepositoriesResponse = await client.request(searchRepositoriesQuery, dto);
     return { results: response.search.edges.map((edge) => edge.node), pageInfo: response.search.pageInfo, repositoryCount: response.search.repositoryCount };
   }
 );

@@ -1,0 +1,1 @@
+export type TSeachRepositoriesDTO = { name: string, first: number | null, after: number | null }

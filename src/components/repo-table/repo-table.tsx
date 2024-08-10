@@ -8,15 +8,18 @@ import {
     TableCell,
     TableBody,
     Paper,
+    Box,
 } from '@mui/material';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 import styles from './repo-table.module.scss';
-import { selectSearchResults } from '../../store/selectors/github-selectors';
+import { selectRowsPerPage, selectSearchResults } from '../../store/selectors/github-selectors';
 import { formatDate } from '../../utils/functions/formatDate';
+import { SelectRows } from '../select-rows/select-rows';
 
 export const RepoTable: React.FC = () => {
     const searchResults = useAppSelector(selectSearchResults);
+    const rowPerPage = useAppSelector(selectRowsPerPage);
 
     return (
         <aside className={styles.main}>
@@ -70,11 +73,6 @@ export const RepoTable: React.FC = () => {
                                 key={repo.id}
                                 sx={[
                                     {
-                                        '&:last-child td, &:last-child th': {
-                                            border: 0,
-                                        },
-                                    },
-                                    {
                                         td: {
                                             lineHeight: '24px',
                                             padding: ' 0px 10px 0px 10px',
@@ -95,6 +93,18 @@ export const RepoTable: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box sx={{
+                display: 'flex',
+                position: 'absolute',
+                bottom:0,
+                right: 0,
+                gap: '8px',
+                alignItems: 'center'
+            }}>
+                <Typography variant='caption'>Rows per page:</Typography>
+                <SelectRows value={5} handleSelect={() => {}}/>
+            </Box>
+            
         </aside>
     );
 };

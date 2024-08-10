@@ -1,0 +1,1 @@
+export const initialRowsPerPage = 5;

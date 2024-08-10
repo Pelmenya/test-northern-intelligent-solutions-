@@ -11,7 +11,7 @@ export const SearchBar: React.FC = () => {
     const [searchRepo, setSearchRepo] = useState('');
     
     const handleSearch = () => {
-        dispatch(searchRepositories({ repoName : searchRepo, first: 10, after: null }));
+        dispatch(searchRepositories({ name : searchRepo, first: 5, after: null }));
     };
 
     return (
