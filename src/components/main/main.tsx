@@ -11,7 +11,6 @@ import {
     selectHasNextPage,
     selectStartCursor,
     selectHasPreviousPage,
-    selectSearchTerm,
 } from '../../store/selectors/github-selectors';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
@@ -21,7 +20,6 @@ export const Main: React.FC = () => {
     const searchResults = useAppSelector(selectSearchResults);
     const searchLoading = useAppSelector(selectSearchLoading);
     const searchError = useAppSelector(selectSearchError);
-    const searchTerm = useAppSelector(selectSearchTerm);
     const endCursor = useAppSelector(selectEndCursor);
     const hasNextPage = useAppSelector(selectHasNextPage);
     const startCursor = useAppSelector(selectStartCursor);

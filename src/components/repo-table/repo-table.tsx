@@ -13,43 +13,83 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 
 import styles from './repo-table.module.scss';
 import { selectSearchResults } from '../../store/selectors/github-selectors';
+import { formatDate } from '../../utils/functions/formatDate';
 
 export const RepoTable: React.FC = () => {
     const searchResults = useAppSelector(selectSearchResults);
+
     return (
         <aside className={styles.main}>
             <Typography variant="h3">Результаты поиска</Typography>
-            <TableContainer component={Paper}>
+            <TableContainer
+                sx={{ boxShadow: 'none', marginTop: '24px' }}
+                component={Paper}
+            >
                 <Table
                     sx={{ width: 912, maxWidth: 912 }}
                     aria-label="simple table"
                 >
-                    <TableHead>
+                    <TableHead
+                        sx={[
+                            {
+                                th: {
+                                    fontWeight: 500,
+                                    lineHeight: '24px',
+                                    padding: ' 0px 10px 0px 10px',
+                                    opacity: 1,
+                                    color: 'text.secondary',
+                                    height: '56px',
+                                    width: '183px',
+                                    maxWidth: '183px'
+                                },
+                            },
+                        ]}
+                    >
                         <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell align="left">Calories</TableCell>
-                            <TableCell align="left">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="left">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="left">Protein&nbsp;(g)</TableCell>
+                            <TableCell>Название</TableCell>
+                            <TableCell align="left">Язык</TableCell>
+                            <TableCell align="left">Число форков</TableCell>
+                            <TableCell align="left">Число звезд</TableCell>
+                            <TableCell align="left">Дата обновления</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody
+                        sx={{
+                            th: {
+                                lineHeight: '24px',
+                                padding: ' 0px 10px 0px 10px',
+                                height: '52px',
+                                width: '183px',
+                                maxWidth: '183px',
+                                whiteSpace: 'wrap'
+                        },
+                        }}
+                    >
                         {searchResults.map((repo) => (
                             <TableRow
-                                key={repo.name}
-                                sx={{
-                                    '&:last-child td, &:last-child th': {
-                                        border: 0,
+                                key={repo.id}
+                                sx={[
+                                    {
+                                        '&:last-child td, &:last-child th': {
+                                            border: 0,
+                                        },
                                     },
-                                }}
+                                    {
+                                        td: {
+                                            lineHeight: '24px',
+                                            padding: ' 0px 10px 0px 10px',
+                                            height: '52px',
+                                            width: '183px',
+                                            maxWidth: '183px'
+                                        },
+                                    },
+                                ]}
                             >
-                                <TableCell component="th" scope="row">
-                                    {repo.name}
-                                </TableCell>
-                                <TableCell align="left">{repo.name}</TableCell>
-                                <TableCell align="left">{repo.name}</TableCell>
-                                <TableCell align="left">{repo.name}</TableCell>
-                                <TableCell align="left">{repo.name}</TableCell>
+                                <TableCell component="th" scope="row">{repo.name}</TableCell>
+                                <TableCell align="left">{repo.primaryLanguage?.name ? repo.primaryLanguage.name : ''}</TableCell>
+                                <TableCell align="left">{repo?.forkCount}</TableCell>
+                                <TableCell align="left">{repo.stargazers?.totalCount}</TableCell>
+                                <TableCell align="left">{formatDate(repo.updatedAt)}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

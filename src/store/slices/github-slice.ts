@@ -1,17 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { gql } from 'graphql-request';
 import { client } from '../../gql/client';
 import { searchRepositoriesQuery } from '../../gql/queries/seach-repositories-query';
-import { Node, TSeachRepositoriesResponse } from '../../types/t-seach-repositories-response';
+import { TRepoNode, TRepoPageInfo, TSeachRepositoriesResponse } from '../../types/t-seach-repositories-response';
 
 interface GithubState {
-  data: any;
   loading: boolean;
   error: string | null;
-  searchResults: any[];
+  searchResults: TRepoNode[];
   searchLoading: boolean;
   searchError: string | null;
-  searchTerm: string;
   endCursor: string | null;
   hasNextPage: boolean;
   startCursor: string | null;
@@ -21,13 +18,11 @@ interface GithubState {
 
 
 const initialState: GithubState = {
-  data: null,
   loading: false,
   error: null,
   searchResults: [],
   searchLoading: false,
   searchError: null,
-  searchTerm: '',
   endCursor: null,
   hasNextPage: false,
   startCursor: null,
@@ -42,7 +37,7 @@ export const searchRepositories = createAsyncThunk(
   async ({ repoName: name, first, after }: { repoName: string, first: number | null, after: number | null }) => {
     const variables: { name: string, first: number | null, after: number | null } = { name, first, after };
     const response: TSeachRepositoriesResponse = await client.request(searchRepositoriesQuery, variables);
-    console.log(response)
+    console.log(response.search.edges.map((edge) => edge.node))
     return { results: response.search.edges.map((edge) => edge.node), pageInfo: response.search.pageInfo, repositoryCount: response.search.repositoryCount };
   }
 );
@@ -51,9 +46,6 @@ const githubSlice = createSlice({
   name: 'github',
   initialState,
   reducers: {
-    setSearchTerm: (state, action: PayloadAction<string>) => {
-      state.searchTerm = action.payload;
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -61,7 +53,7 @@ const githubSlice = createSlice({
         state.searchLoading = true;
         state.searchError = null;
       })
-      .addCase(searchRepositories.fulfilled, (state, action: PayloadAction<{ results: any[]; pageInfo: any }>) => {
+      .addCase(searchRepositories.fulfilled, (state, action: PayloadAction<{ results: TRepoNode[]; pageInfo: TRepoPageInfo }>) => {
         state.searchLoading = false;
         state.searchResults = action.payload.results;
         state.endCursor = action.payload.pageInfo.endCursor;
@@ -76,6 +68,6 @@ const githubSlice = createSlice({
   },
 });
 
-export const { setSearchTerm } = githubSlice.actions;
+//export const { setSearchTerm } = githubSlice.actions;
 
 export const githubReducer = githubSlice.reducer;

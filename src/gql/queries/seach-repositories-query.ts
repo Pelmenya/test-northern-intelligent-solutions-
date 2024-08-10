@@ -5,31 +5,53 @@ query($name: String!, $first: Int!, $after: String) {
   search(query: $name, type: REPOSITORY, first: $first, after: $after) {
     repositoryCount
     pageInfo {
+      startCursor
       endCursor
       hasNextPage
-      startCursor
       hasPreviousPage
     }
     edges {
       node {
         ... on Repository {
+          databaseId
+          id
           name
-          owner {
-            login
-          }
           description
+          forkCount
+          isFork
+          issues {
+            totalCount
+          }
+          labels (first: 100) {
+            nodes {
+              name
+            }
+          }
+          languages (first: 100) {
+            nodes {
+              name
+            }
+          }
+          licenseInfo {
+            name
+          }
+          nameWithOwner
+          primaryLanguage {
+            name
+          }
+          pullRequests {
+            totalCount
+          }
+          watchers {
+            totalCount
+          }
+          stargazers {
+            totalCount
+          }
           url
           createdAt
           updatedAt
-          stargazerCount
-          forkCount
-          languages(first: 5) {
-            edges {
-              node {
-                name
-              }
-            }
-          }
+          diskUsage
         }
       }
     }
