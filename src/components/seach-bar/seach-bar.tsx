@@ -3,16 +3,26 @@ import { TextField, Button } from '@mui/material';
 import styles from './seach-bar.module.scss';
 import {
     searchRepositories,
+    setSeachRepoName,
 } from '../../store/slices/github-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { valuesRowsPerPage } from '../../utils/constants/values-rows-per-page';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectRowsPerPage } from '../../store/selectors/github-selectors';
 
 export const SearchBar: React.FC = () => {
     const dispatch = useAppDispatch();
-    const [searchRepo, setSearchRepo] = useState('');
-    
+    const rowsPerPage = useAppSelector(selectRowsPerPage);
+    const [repoName, setRepoName] = useState('');
+
     const handleSearch = () => {
-        dispatch(searchRepositories({ name : searchRepo, first: valuesRowsPerPage[valuesRowsPerPage.length - 1], after: null }));
+        dispatch(
+            searchRepositories({
+                name: repoName,
+                first: rowsPerPage,
+                after: null,
+            })
+        );
+        dispatch(setSeachRepoName(repoName));
     };
 
     return (
@@ -31,7 +41,7 @@ export const SearchBar: React.FC = () => {
                             height: '42px',
                             padding: '0',
                             paddingLeft: '16px',
-                            color: 'text.secondary'
+                            color: 'text.secondary',
                         },
                     },
                     {
@@ -45,14 +55,20 @@ export const SearchBar: React.FC = () => {
                     },
                 ]}
                 placeholder="Введите поисковый запрос"
-                value={searchRepo}
-                onChange={(e) => setSearchRepo(e.target.value)}
+                value={repoName}
+                onChange={(e) => setRepoName(e.target.value)}
             />
-            <Button type="submit" variant="contained" sx={{
-              padding: '8px 22px 8px 22px',
-              borderRadius: '4px',
-              letterSpacing: '1.17px'
-            }} color="primary" onClick={handleSearch}>
+            <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                    padding: '8px 22px 8px 22px',
+                    borderRadius: '4px',
+                    letterSpacing: '1.17px',
+                }}
+                color="primary"
+                onClick={handleSearch}
+            >
                 Искать
             </Button>
         </form>

@@ -6,11 +6,10 @@ import { initialRowsPerPage } from '../../utils/constants/initilal-rows-per-page
 import { TSeachRepositoriesDTO } from '../../types/t-seach-repositories-dto';
 
 interface GithubState {
-  loading: boolean;
-  error: string | null;
-  searchResults: TRepoNode[];
   searchLoading: boolean;
   searchError: string | null;
+  searchResults: TRepoNode[];
+  searchRepoName: string;
   endCursor: string | null;
   hasNextPage: boolean;
   startCursor: string | null;
@@ -20,11 +19,10 @@ interface GithubState {
 }
 
 const initialState: GithubState = {
-  loading: false,
-  error: null,
   searchResults: [],
   searchLoading: false,
   searchError: null,
+  searchRepoName: '',
   endCursor: null,
   hasNextPage: false,
   startCursor: null,
@@ -51,10 +49,14 @@ const githubSlice = createSlice({
     setRowsPerPage(state, action) {
       state.rowsPerPage = action.payload;
     },
+    setSeachRepoName(state, action) {
+      state.searchRepoName = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(searchRepositories.pending, (state) => {
+        state.repositoryCount = null;
         state.searchLoading = true;
         state.searchError = null;
       })
@@ -74,6 +76,6 @@ const githubSlice = createSlice({
   },
 });
 
-export const { setRowsPerPage } = githubSlice.actions;
+export const { setRowsPerPage, setSeachRepoName } = githubSlice.actions;
 
 export const githubReducer = githubSlice.reducer;
