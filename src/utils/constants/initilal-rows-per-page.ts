@@ -1,1 +1,3 @@
-export const initialRowsPerPage = 5;
+import { valuesRowsPerPage } from "./values-rows-per-page";
+
+export const initialRowsPerPage = valuesRowsPerPage[0];

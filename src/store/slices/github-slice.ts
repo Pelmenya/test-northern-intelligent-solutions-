@@ -30,7 +30,7 @@ const initialState: GithubState = {
   startCursor: null,
   hasPreviousPage: false,
   rowsPerPage: initialRowsPerPage,
-  repositoryCount: null 
+  repositoryCount: null
 }
 
 
@@ -48,6 +48,9 @@ const githubSlice = createSlice({
   name: 'github',
   initialState,
   reducers: {
+    setRowsPerPage(state, action) {
+      state.rowsPerPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,7 +58,7 @@ const githubSlice = createSlice({
         state.searchLoading = true;
         state.searchError = null;
       })
-      .addCase(searchRepositories.fulfilled, (state, action: PayloadAction<{ results: TRepoNode[]; pageInfo: TRepoPageInfo; repositoryCount: number}>) => {
+      .addCase(searchRepositories.fulfilled, (state, action: PayloadAction<{ results: TRepoNode[]; pageInfo: TRepoPageInfo; repositoryCount: number }>) => {
         state.searchLoading = false;
         state.searchResults = action.payload.results;
         state.endCursor = action.payload.pageInfo.endCursor;
@@ -71,6 +74,6 @@ const githubSlice = createSlice({
   },
 });
 
-//export const { setSearchTerm } = githubSlice.actions;
+export const { setRowsPerPage } = githubSlice.actions;
 
 export const githubReducer = githubSlice.reducer;

@@ -5,13 +5,14 @@ import {
     searchRepositories,
 } from '../../store/slices/github-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { valuesRowsPerPage } from '../../utils/constants/values-rows-per-page';
 
 export const SearchBar: React.FC = () => {
     const dispatch = useAppDispatch();
     const [searchRepo, setSearchRepo] = useState('');
     
     const handleSearch = () => {
-        dispatch(searchRepositories({ name : searchRepo, first: 10, after: null }));
+        dispatch(searchRepositories({ name : searchRepo, first: valuesRowsPerPage[valuesRowsPerPage.length - 1], after: null }));
     };
 
     return (

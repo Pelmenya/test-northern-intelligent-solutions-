@@ -10,19 +10,18 @@ import {
     Paper,
     Box,
 } from '@mui/material';
-import { useAppSelector } from '../../hooks/use-app-selector';
 
-import styles from './repo-table.module.scss';
 import {
-    selectRowsPerPage,
-    selectSearchResults,
 } from '../../store/selectors/github-selectors';
 import { formatDate } from '../../utils/functions/formatDate';
-import { SelectRows } from '../select-rows/select-rows';
+import { TRepoNode } from '../../types/t-seach-repositories-response';
 
-export const RepoTable: React.FC = () => {
-    const searchResults = useAppSelector(selectSearchResults);
-    const rowPerPage = useAppSelector(selectRowsPerPage);
+export type TRepoTableProps = {
+    data: TRepoNode[];
+    count: number;
+}
+
+export const RepoTable = ({ data, count } : TRepoTableProps) => {
 
     return (
         <Box>
@@ -71,7 +70,7 @@ export const RepoTable: React.FC = () => {
                             },
                         }}
                     >
-                        {searchResults.map((repo) => (
+                        {data.slice(0,count).map((repo) => (
                             <TableRow
                                 key={repo.id}
                                 sx={[

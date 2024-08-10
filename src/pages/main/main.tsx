@@ -29,7 +29,6 @@ export const Main: React.FC = () => {
     const hasNextPage = useAppSelector(selectHasNextPage);
     const startCursor = useAppSelector(selectStartCursor);
     const hasPreviousPage = useAppSelector(selectHasPreviousPage);
-    console.log(rowsPerPage);
 
     return (
         <main className={styles.main}>
@@ -39,12 +38,12 @@ export const Main: React.FC = () => {
                     <CircularProgress />
                 </Intro>
             )}
-            {!searchResults.length && !searchLoading && !searchError && (
+            {!repositoryCount && !searchLoading && !searchError && (
                 <Intro text="Добро пожаловать" />
             )}
             {repositoryCount && (
                 <aside className={styles.leftSideBar}>
-                    <RepoTable />
+                    <RepoTable data={searchResults} count={rowsPerPage}/>
                     <Box
                         sx={{
                             height: '52px',
@@ -53,6 +52,7 @@ export const Main: React.FC = () => {
                             alignItems: 'center',
                             justifyContent: 'flex-end',
                             width: '100%',
+                            paddingRight: '16px'
                         }}
                     >
                         <Pagination />

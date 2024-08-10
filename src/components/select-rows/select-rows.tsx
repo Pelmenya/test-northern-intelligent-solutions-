@@ -1,8 +1,9 @@
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { valuesRowsPerPage } from '../../utils/constants/values-rows-per-page';
 
 export type TSelectRowsProps = {
     value: number;
-    handleSelect: () => void;
+    handleSelect: (e: SelectChangeEvent<number>) => void;
 };
 export const SelectRows = ({ value, handleSelect }: TSelectRowsProps) => {
     return (
@@ -17,17 +18,19 @@ export const SelectRows = ({ value, handleSelect }: TSelectRowsProps) => {
                     fontSize: '12px',
                     paddingTop: 0,
                     paddingBottom: 0,
-                    paddingRight: '16px',
+                    paddingRight: '24px',
                     marginTop: '2px',
                     color: 'text.secondary',
                     opacity: 1,
-                    fontWeight: 500
+                    fontWeight: 500,
                 },
             }}
         >
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
+            {valuesRowsPerPage.map((item) => (
+                <MenuItem key={item} value={item}>
+                    {item}
+                </MenuItem>
+            ))}
         </Select>
     );
 };
