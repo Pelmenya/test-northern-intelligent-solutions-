@@ -23,6 +23,7 @@ interface GithubState {
   rowsPerPage: number;
   repositoryCount: number | null;
   sorts: TSorts;
+  paginationBatch: number;
 }
 
 const initialState: GithubState = {
@@ -39,11 +40,10 @@ const initialState: GithubState = {
   sorts: {
     forks: null,
     stars: null,
-    updatedAt: 'sort:updated-asc'
-  }
+    updatedAt: 'sort:updated-desc'
+  },
+  paginationBatch: initialRowsPerPage
 }
-
-
 
 // Асинхронный thunk для поиска репозиториев
 export const searchRepositories = createAsyncThunk(
@@ -55,7 +55,7 @@ export const searchRepositories = createAsyncThunk(
 );
 
 // Асинхронный thunk для поиска репозиториев с пагинацией назад
-export const searchRepositoriesBefore= createAsyncThunk(
+export const searchRepositoriesBefore = createAsyncThunk(
   'github/searchRepositoriesBefore',
   async (dto: TSeachRepositoriesBeforeDTO) => {
     const response: TSeachRepositoriesResponse = await client.request(searchRepositoriesBeforeQuery, dto);
@@ -64,7 +64,7 @@ export const searchRepositoriesBefore= createAsyncThunk(
 );
 
 // Асинхронный thunk для поиска репозиториев с пагинацией назад
-export const searchRepositoriesAfter= createAsyncThunk(
+export const searchRepositoriesAfter = createAsyncThunk(
   'github/searchRepositoriesAfter',
   async (dto: TSeachRepositoriesAfterDTO) => {
     const response: TSeachRepositoriesResponse = await client.request(searchRepositoriesAfterQuery, dto);
@@ -84,7 +84,10 @@ const githubSlice = createSlice({
     },
     setSorts(state, action: PayloadAction<TSorts>) {
       state.sorts = action.payload;
-    }
+    },
+    setPaginationBatch(state, action: PayloadAction<number>) {
+      state.paginationBatch = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -123,8 +126,8 @@ const githubSlice = createSlice({
       .addCase(searchRepositoriesBefore.rejected, (state, action) => {
         state.searchLoading = false;
         state.searchError = action.error.message || 'Failed to search repositories';
-      }) 
-       .addCase(searchRepositoriesAfter.pending, (state) => {
+      })
+      .addCase(searchRepositoriesAfter.pending, (state) => {
         state.repositoryCount = null;
         state.searchLoading = true;
         state.searchError = null;
@@ -145,6 +148,11 @@ const githubSlice = createSlice({
   },
 });
 
-export const { setRowsPerPage, setSeachRepoName, setSorts } = githubSlice.actions;
+export const {
+  setRowsPerPage,
+  setSeachRepoName,
+  setSorts, 
+  setPaginationBatch
+} = githubSlice.actions;
 
 export const githubReducer = githubSlice.reducer;

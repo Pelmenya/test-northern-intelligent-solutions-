@@ -3,6 +3,7 @@ import { TextField, Button } from '@mui/material';
 import styles from './seach-bar.module.scss';
 import {
     searchRepositories,
+    setPaginationBatch,
     setSeachRepoName,
 } from '../../store/slices/github-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -28,6 +29,7 @@ export const SearchBar: React.FC = () => {
                 })
             );
             dispatch(setSeachRepoName(repoName));
+            dispatch(setPaginationBatch(rowsPerPage));
         }
     };
 

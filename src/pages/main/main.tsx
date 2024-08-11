@@ -15,6 +15,7 @@ import {
     selectRepositoryCount,
     selectSorts,
     selectSearchRepoName,
+    selectPaginationBatch,
 } from '../../store/selectors/github-selectors';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
@@ -25,6 +26,7 @@ import {
     searchRepositories,
     searchRepositoriesAfter,
     searchRepositoriesBefore,
+    setPaginationBatch,
     setRowsPerPage,
     setSorts,
 } from '../../store/slices/github-slice';
@@ -40,9 +42,11 @@ export const Main: React.FC = () => {
     const hasNextPage = useAppSelector(selectHasNextPage);
     const startCursor = useAppSelector(selectStartCursor);
     const hasPreviousPage = useAppSelector(selectHasPreviousPage);
-    const sorts = useAppSelector(selectSorts);
-    const currentSort = Object.values(sorts).filter((item) => item !== null);
     const repoName = useAppSelector(selectSearchRepoName);
+    const paginationBatch = useAppSelector(selectPaginationBatch);
+    const sorts = useAppSelector(selectSorts);
+
+    const currentSort = Object.values(sorts).filter((item) => item !== null);
     const searchString = repoName + ' ' + currentSort;
 
     const handlerSelect = (e: SelectChangeEvent<number>) => {
@@ -53,6 +57,7 @@ export const Main: React.FC = () => {
                 first: Number(e.target.value),
             })
         );
+        dispatch(setPaginationBatch(Number(e.target.value)));
     };
 
     const handlerOnClickSort = (e: MouseEvent<HTMLButtonElement>) => {
@@ -162,6 +167,7 @@ export const Main: React.FC = () => {
                     after: endCursor,
                 })
             );
+            dispatch(setPaginationBatch(paginationBatch + rowsPerPage));
         }
     };
 
@@ -174,6 +180,7 @@ export const Main: React.FC = () => {
                     before: startCursor,
                 })
             );
+            dispatch(setPaginationBatch(paginationBatch - rowsPerPage));
         }
     };
 
@@ -208,6 +215,7 @@ export const Main: React.FC = () => {
                     >
                         <Pagination
                             rowsPerPage={rowsPerPage}
+                            paginationBatch={paginationBatch}
                             repositoryCount={repositoryCount}
                             hasNextPage={hasNextPage}
                             hasPreviousPage={hasPreviousPage}

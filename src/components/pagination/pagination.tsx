@@ -5,6 +5,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export type TPaginationProps = {
     rowsPerPage: number;
+    paginationBatch: number;
     repositoryCount: number;
     hasNextPage: boolean;
     hasPreviousPage: boolean;
@@ -15,6 +16,7 @@ export type TPaginationProps = {
 
 export const Pagination = ({
     rowsPerPage,
+    paginationBatch,
     repositoryCount,
     hasNextPage,
     hasPreviousPage,
@@ -50,15 +52,24 @@ export const Pagination = ({
                 }}
                 variant="caption"
             >
-                1-4 of <span>{repositoryCount}</span>
+                <span>{paginationBatch - rowsPerPage + 1}</span>-
+                <span>{paginationBatch}</span> of <span>{repositoryCount}</span>
             </Typography>
             <Box sx={{ display: 'flex', gap: '24px' }}>
-                <ButtonBase id="back" onClick={handlerPreviousPage} disabled={!hasPreviousPage}>
+                <ButtonBase
+                    id="back"
+                    onClick={handlerPreviousPage}
+                    disabled={!hasPreviousPage}
+                >
                     <ArrowBackIosIcon
                         sx={{ height: '12px', width: '12px', opacity: '.56' }}
                     />
                 </ButtonBase>
-                <ButtonBase id="forward" onClick={handlerNextPage}  disabled={!hasNextPage}>
+                <ButtonBase
+                    id="forward"
+                    onClick={handlerNextPage}
+                    disabled={!hasNextPage}
+                >
                     <ArrowForwardIosIcon
                         sx={{ height: '12px', width: '12px', opacity: '.56' }}
                     />

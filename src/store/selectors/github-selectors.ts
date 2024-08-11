@@ -11,3 +11,4 @@ export const selectRowsPerPage = (state: RootState) => state.github.rowsPerPage;
 export const selectRepositoryCount = (state: RootState) => state.github.repositoryCount;
 export const selectSearchRepoName = (state: RootState) => state.github.searchRepoName;
 export const selectSorts = (state: RootState) => state.github.sorts;
+export const selectPaginationBatch = (state: RootState) => state.github.paginationBatch;
