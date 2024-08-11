@@ -22,12 +22,14 @@ query($name: String!, $last: Int!, $before: String) {
           issues {
             totalCount
           }
-          labels (first: 100) {
+          repositoryTopics(first: 10) {
             nodes {
-              name
+              topic {
+                name
+              }
             }
           }
-          languages (first: 100) {
+          languages (first: 10) {
             nodes {
               name
             }

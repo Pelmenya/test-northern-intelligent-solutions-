@@ -13,11 +13,8 @@ export type TRepoNode = {
     description: string;
     forkCount: number;
     issues: TTotalCount;
-    labels: {
-        nodes: Array<{ node: TName }>
-    };
-    languages: {
-        nodes: Array<{ node: TName }>
+    repositoryTopics: {
+        nodes: Array<{ topic: { name: string } }>
     };
     licenseInfo: TName;
     nameWithOwner: string;

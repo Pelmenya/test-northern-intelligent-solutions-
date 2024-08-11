@@ -46,6 +46,8 @@ export const Main: React.FC = () => {
     const paginationBatch = useAppSelector(selectPaginationBatch);
     const sorts = useAppSelector(selectSorts);
 
+    console.log(searchResults[0]?.repositoryTopics?.nodes[0]?.topic.name)
+
     const currentSort = Object.values(sorts).filter((item) => item !== null);
     const searchString = repoName + ' ' + currentSort;
 
@@ -192,8 +194,11 @@ export const Main: React.FC = () => {
                     <CircularProgress />
                 </Intro>
             )}
-            {!repositoryCount && !searchLoading && !searchError && (
+            {repositoryCount === null && !searchLoading && !searchError && (
                 <Intro text="Добро пожаловать" />
+            )}
+            {repositoryCount === 0 && !searchLoading && !searchError && (
+                <Intro text="Ничего не найдено" />
             )}
             {repositoryCount && (
                 <aside className={styles.leftSideBar}>
