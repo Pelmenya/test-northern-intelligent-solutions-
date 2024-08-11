@@ -41,13 +41,15 @@ export const Main: React.FC = () => {
     const sorts = useAppSelector(selectSorts);
     const currentSort = Object.values(sorts).filter((item) => item !== null);
     const repoName = useAppSelector(selectSearchRepoName);
+    const searchString = repoName + ' ' + currentSort;
 
     const handlerSelect = (e: SelectChangeEvent<number>) => {
         dispatch(setRowsPerPage(e.target.value));
         dispatch(
             searchRepositories({
-                name: repoName + ' ' + currentSort,
+                name: searchString,
                 first: Number(e.target.value),
+                before: null,
                 after: null,
             })
         );
@@ -68,6 +70,7 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:forks-desc',
                             first: rowsPerPage,
+                            before: null,
                             after: null,
                         })
                     );
@@ -83,6 +86,7 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:forks-asc',
                             first: rowsPerPage,
+                            before: null,
                             after: null,
                         })
                     );
@@ -101,6 +105,7 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:stars-desc',
                             first: rowsPerPage,
+                            before: null,
                             after: null,
                         })
                     );
@@ -116,6 +121,7 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:stars-asc',
                             first: rowsPerPage,
+                            before: null,
                             after: null,
                         })
                     );
@@ -134,6 +140,7 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:updated-desc',
                             first: rowsPerPage,
+                            before: null,
                             after: null,
                         })
                     );
@@ -149,11 +156,40 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:updated-asc',
                             first: rowsPerPage,
+                            before: null,
                             after: null,
                         })
                     );
                 }
                 break;
+        }
+    };
+
+    const handlerNextPage = () => {
+        console.log(endCursor)
+
+        if (endCursor) {
+            dispatch(
+                searchRepositories({
+                    name: searchString,
+                    first: rowsPerPage,
+                    after: endCursor,
+                    before: null
+                })
+            );
+        }
+    };
+
+    const handlerPreviousPage = () => {
+        if (startCursor) {
+            dispatch(
+                searchRepositories({
+                    name: searchString,
+                    first: rowsPerPage,
+                    before: startCursor,
+                    after: null,
+                })
+            );
         }
     };
 
@@ -189,7 +225,11 @@ export const Main: React.FC = () => {
                         <Pagination
                             rowsPerPage={rowsPerPage}
                             repositoryCount={repositoryCount}
+                            hasNextPage={hasNextPage}
+                            hasPreviousPage={hasPreviousPage}
                             handlerSelect={handlerSelect}
+                            handlerNextPage={handlerNextPage}
+                            handlerPreviousPage={handlerPreviousPage}
                         />
                     </Box>
                 </aside>

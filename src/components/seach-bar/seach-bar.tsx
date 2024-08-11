@@ -26,6 +26,7 @@ export const SearchBar: React.FC = () => {
                     name: repoName + ' ' + currentSort,
                     first: rowsPerPage,
                     after: null,
+                    before: null
                 })
             );
             dispatch(setSeachRepoName(repoName));
