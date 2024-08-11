@@ -34,7 +34,7 @@ export const RepoTable = ({
 }: TRepoTableProps) => {
     const dispatch = useAppDispatch();
 
-    const handleOnClickSort = (e: MouseEvent<HTMLButtonElement>) => {
+    const handlerOnClickSort = (e: MouseEvent<HTMLButtonElement>) => {
         switch (e.currentTarget.id) {
             case 'forks':
                 if (sorts.forks === 'sort:forks-asc') {
@@ -173,7 +173,7 @@ export const RepoTable = ({
                                     id="forks"
                                     fieldName="Число форков"
                                     direction={sorts.forks}
-                                    handleOnClick={handleOnClickSort}
+                                    handleOnClick={handlerOnClickSort}
                                 />
                             </TableCell>
                             <TableCell align="left">
@@ -181,7 +181,7 @@ export const RepoTable = ({
                                     id="stars"
                                     fieldName="Число звезд"
                                     direction={sorts.stars}
-                                    handleOnClick={handleOnClickSort}
+                                    handleOnClick={handlerOnClickSort}
                                 />
                             </TableCell>
                             <TableCell align="left">
@@ -189,7 +189,7 @@ export const RepoTable = ({
                                     id="updatedAt"
                                     fieldName="Дата обновления"
                                     direction={sorts.updatedAt}
-                                    handleOnClick={handleOnClickSort}
+                                    handleOnClick={handlerOnClickSort}
                                 />
                             </TableCell>
                         </TableRow>

@@ -1,39 +1,20 @@
 import { Box, ButtonBase, SelectChangeEvent, Typography } from '@mui/material';
 import { SelectRows } from '../select-rows/select-rows';
-import { useAppSelector } from '../../hooks/use-app-selector';
-import {
-    selectRepositoryCount,
-    selectRowsPerPage,
-    selectSearchRepoName,
-    selectSorts,
-} from '../../store/selectors/github-selectors';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import {
-    searchRepositories,
-    setRowsPerPage,
-} from '../../store/slices/github-slice';
-
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export const Pagination = () => {
-    const dispatch = useAppDispatch();
-    const rowsPerPage = useAppSelector(selectRowsPerPage);
-    const searchRepoName = useAppSelector(selectSearchRepoName);
-    const repositoryCount = useAppSelector(selectRepositoryCount);
-    const sorts = useAppSelector(selectSorts);
-    const currentSort = Object.values(sorts).filter((item) => item !== null);
+export type TPaginationProps = {
+    rowsPerPage: number;
+    repositoryCount: number;
+    handlerSelect: (e: SelectChangeEvent<number>) => void;
+};
 
-    const handleSelect = (e: SelectChangeEvent<number>) => {
-        dispatch(setRowsPerPage(e.target.value));
-        dispatch(
-            searchRepositories({
-                name: searchRepoName + ' ' + currentSort,
-                first: Number(e.target.value),
-                after: null,
-            })
-        );
-    };
+export const Pagination = ({
+    rowsPerPage,
+    repositoryCount,
+    handlerSelect,
+}: TPaginationProps) => {
+
 
     return (
         <Box
@@ -51,7 +32,7 @@ export const Pagination = () => {
                 }}
             >
                 <Typography variant="caption">Rows per page:</Typography>
-                <SelectRows value={rowsPerPage} handleSelect={handleSelect} />
+                <SelectRows value={rowsPerPage} handleSelect={handlerSelect} />
             </Box>
             <Typography
                 sx={{
@@ -65,9 +46,17 @@ export const Pagination = () => {
             >
                 1-4 of <span>{repositoryCount}</span>
             </Typography>
-            <Box sx={{display: 'flex', gap: '24px'}}>
-                <ButtonBase><ArrowBackIosIcon sx={{height: '12px', width: '12px', opacity:'.56'}} /> </ButtonBase>
-                <ButtonBase><ArrowForwardIosIcon sx={{height: '12px', width: '12px', opacity:'.56'}} /></ButtonBase>
+            <Box sx={{ display: 'flex', gap: '24px' }}>
+                <ButtonBase id="back">
+                    <ArrowBackIosIcon
+                        sx={{ height: '12px', width: '12px', opacity: '.56' }}
+                    />{' '}
+                </ButtonBase>
+                <ButtonBase id="forward">
+                    <ArrowForwardIosIcon
+                        sx={{ height: '12px', width: '12px', opacity: '.56' }}
+                    />
+                </ButtonBase>
             </Box>
         </Box>
     );
