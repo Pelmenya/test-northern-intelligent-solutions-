@@ -1,14 +1,14 @@
 import { Box, SelectChangeEvent, Typography } from '@mui/material';
 import { SelectRows } from '../select-rows/select-rows';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { selectRepositoryCount, selectRowsPerPage, selectSerchRepoName } from '../../store/selectors/github-selectors';
+import { selectRepositoryCount, selectRowsPerPage, selectSearchRepoName } from '../../store/selectors/github-selectors';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { searchRepositories, setRowsPerPage } from '../../store/slices/github-slice';
 
 export const Pagination = () => {
     const dispatch = useAppDispatch();
     const rowsPerPage = useAppSelector(selectRowsPerPage);
-    const searchRepoName = useAppSelector(selectSerchRepoName);
+    const searchRepoName = useAppSelector(selectSearchRepoName);
     const repositoryCount = useAppSelector(selectRepositoryCount);
 
     const handleSelect = (e: SelectChangeEvent<number>) => {

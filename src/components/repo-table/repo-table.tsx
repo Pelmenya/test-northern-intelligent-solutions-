@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import {
     Typography,
     TableContainer,
@@ -14,47 +14,126 @@ import {
 import {} from '../../store/selectors/github-selectors';
 import { formatDate } from '../../utils/functions/formatDate';
 import { TRepoNode } from '../../types/t-seach-repositories-response';
-import { TSortFieldDirection } from '../../types/t-sort-field-direction';
 import { TableSortCell } from './components/table-sort-cell/table-sort-cell';
+import { TSorts } from '../../types/t-sorts';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { searchRepositories, setSorts } from '../../store/slices/github-slice';
 
 export type TRepoTableProps = {
     data: TRepoNode[];
+    sorts: TSorts;
+    repoName: string;
+    rowsPerPage: number;
 };
 
-export const RepoTable = ({ data }: TRepoTableProps) => {
-    const [sortForks, setForksSort] = useState<TSortFieldDirection>(null);
-    const [sortStars, setStarsSort] = useState<TSortFieldDirection>(null);
-    const [sortUpatedAt, setUpatedAtSort] =
-        useState<TSortFieldDirection>('sort:updated-asc');
+export const RepoTable = ({
+    data,
+    sorts,
+    repoName,
+    rowsPerPage,
+}: TRepoTableProps) => {
+    const dispatch = useAppDispatch();
 
     const handleOnClickSort = (e: MouseEvent<HTMLButtonElement>) => {
         switch (e.currentTarget.id) {
             case 'forks':
-                sortForks
-                    ? sortForks === 'sort:forks-asc'
-                        ? setForksSort('sort:forks-desc')
-                        : setForksSort('sort:forks-asc')
-                    : setForksSort('sort:forks-desc');
-                setStarsSort(null);
-                setUpatedAtSort(null);
+                if (sorts.forks === 'sort:forks-asc') {
+                    dispatch(
+                        setSorts({
+                            forks: 'sort:forks-desc',
+                            stars: null,
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:forks-desc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setSorts({
+                            forks: 'sort:forks-asc',
+                            stars: null,
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:forks-asc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                }
                 break;
             case 'stars':
-                sortStars
-                    ? sortStars === 'sort:stars-asc'
-                        ? setStarsSort('sort:stars-desc')
-                        : setStarsSort('sort:stars-asc')
-                    : setStarsSort('sort:stars-desc');
-                setForksSort(null);
-                setUpatedAtSort(null);
+                if (sorts.stars === 'sort:stars-asc') {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: 'sort:stars-desc',
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:stars-desc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: 'sort:stars-asc',
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:stars-asc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                }
                 break;
             case 'updatedAt':
-                sortUpatedAt
-                    ? sortUpatedAt === 'sort:updated-asc'
-                        ? setUpatedAtSort('sort:updated-desc')
-                        : setUpatedAtSort('sort:updated-asc')
-                    : setUpatedAtSort('sort:updated-desc');
-                setStarsSort(null);
-                setForksSort(null);
+                if (sorts.updatedAt === 'sort:updated-asc') {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: null,
+                            updatedAt: 'sort:updated-desc',
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:updated-desc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: null,
+                            updatedAt: 'sort:updated-asc',
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:updated-asc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                }
                 break;
         }
     };
@@ -93,7 +172,7 @@ export const RepoTable = ({ data }: TRepoTableProps) => {
                                 <TableSortCell
                                     id="forks"
                                     fieldName="Число форков"
-                                    direction={sortForks}
+                                    direction={sorts.forks}
                                     handleOnClick={handleOnClickSort}
                                 />
                             </TableCell>
@@ -101,7 +180,7 @@ export const RepoTable = ({ data }: TRepoTableProps) => {
                                 <TableSortCell
                                     id="stars"
                                     fieldName="Число звезд"
-                                    direction={sortStars}
+                                    direction={sorts.stars}
                                     handleOnClick={handleOnClickSort}
                                 />
                             </TableCell>
@@ -109,7 +188,7 @@ export const RepoTable = ({ data }: TRepoTableProps) => {
                                 <TableSortCell
                                     id="updatedAt"
                                     fieldName="Дата обновления"
-                                    direction={sortUpatedAt}
+                                    direction={sorts.updatedAt}
                                     handleOnClick={handleOnClickSort}
                                 />
                             </TableCell>

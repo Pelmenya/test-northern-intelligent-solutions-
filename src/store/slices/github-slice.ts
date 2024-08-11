@@ -4,6 +4,7 @@ import { searchRepositoriesQuery } from '../../gql/queries/seach-repositories-qu
 import { TRepoNode, TRepoPageInfo, TSeachRepositoriesResponse } from '../../types/t-seach-repositories-response';
 import { initialRowsPerPage } from '../../utils/constants/initilal-rows-per-page';
 import { TSeachRepositoriesDTO } from '../../types/t-seach-repositories-dto';
+import { TSorts } from '../../types/t-sorts';
 
 interface GithubState {
   searchLoading: boolean;
@@ -16,6 +17,7 @@ interface GithubState {
   hasPreviousPage: boolean;
   rowsPerPage: number;
   repositoryCount: number | null;
+  sorts: TSorts;
 }
 
 const initialState: GithubState = {
@@ -28,7 +30,12 @@ const initialState: GithubState = {
   startCursor: null,
   hasPreviousPage: false,
   rowsPerPage: initialRowsPerPage,
-  repositoryCount: null
+  repositoryCount: null,
+  sorts: {
+    forks: null,
+    stars: null,
+    updatedAt: 'sort:updated-asc'
+  }
 }
 
 
@@ -51,6 +58,9 @@ const githubSlice = createSlice({
     },
     setSeachRepoName(state, action) {
       state.searchRepoName = action.payload;
+    },
+    setSorts(state, action: PayloadAction<TSorts>) {
+      state.sorts = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -76,6 +86,6 @@ const githubSlice = createSlice({
   },
 });
 
-export const { setRowsPerPage, setSeachRepoName } = githubSlice.actions;
+export const { setRowsPerPage, setSeachRepoName, setSorts } = githubSlice.actions;
 
 export const githubReducer = githubSlice.reducer;

@@ -13,6 +13,8 @@ import {
     selectHasPreviousPage,
     selectRowsPerPage,
     selectRepositoryCount,
+    selectSorts,
+    selectSearchRepoName,
 } from '../../store/selectors/github-selectors';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
@@ -29,6 +31,8 @@ export const Main: React.FC = () => {
     const hasNextPage = useAppSelector(selectHasNextPage);
     const startCursor = useAppSelector(selectStartCursor);
     const hasPreviousPage = useAppSelector(selectHasPreviousPage);
+    const sorts = useAppSelector(selectSorts);
+    const repoName = useAppSelector(selectSearchRepoName);
 
     return (
         <main className={styles.main}>
@@ -43,16 +47,21 @@ export const Main: React.FC = () => {
             )}
             {repositoryCount && (
                 <aside className={styles.leftSideBar}>
-                    <RepoTable data={searchResults} />
+                    <RepoTable
+                        data={searchResults}
+                        sorts={sorts}
+                        repoName={repoName}
+                        rowsPerPage={rowsPerPage}
+                    />
                     <Box
                         sx={{
                             height: '52px',
-                            minHeight:'52px',
+                            minHeight: '52px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'flex-end',
                             width: '100%',
-                            paddingRight: '16px'
+                            paddingRight: '16px',
                         }}
                     >
                         <Pagination />
