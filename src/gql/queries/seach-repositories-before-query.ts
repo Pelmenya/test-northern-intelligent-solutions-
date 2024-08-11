@@ -22,7 +22,7 @@ query($name: String!, $last: Int!, $before: String) {
           issues {
             totalCount
           }
-          repositoryTopics(first: 10) {
+          repositoryTopics(first: 100) {
             nodes {
               topic {
                 name

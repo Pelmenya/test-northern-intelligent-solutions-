@@ -53,7 +53,12 @@ export const Pagination = ({
                 variant="caption"
             >
                 <span>{paginationBatch - rowsPerPage + 1}</span>-
-                <span>{paginationBatch}</span> of <span>{repositoryCount}</span>
+                <span>
+                    {repositoryCount - paginationBatch >= 0
+                        ? paginationBatch
+                        : repositoryCount}
+                </span>{' '}
+                of <span>{repositoryCount}</span>
             </Typography>
             <Box sx={{ display: 'flex', gap: '24px' }}>
                 <ButtonBase
