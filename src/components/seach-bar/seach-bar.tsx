@@ -4,20 +4,23 @@ import styles from './seach-bar.module.scss';
 import {
     searchRepositories,
     setSeachRepoName,
+
 } from '../../store/slices/github-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { selectRowsPerPage } from '../../store/selectors/github-selectors';
+import { selectRowsPerPage, selectSorts } from '../../store/selectors/github-selectors';
 
 export const SearchBar: React.FC = () => {
     const dispatch = useAppDispatch();
     const rowsPerPage = useAppSelector(selectRowsPerPage);
+    const sorts = useAppSelector(selectSorts);
+    const currentSort = Object.values(sorts).filter(item => item !== null)
     const [repoName, setRepoName] = useState('');
 
     const handleSearch = () => {
         dispatch(
             searchRepositories({
-                name: repoName,
+                name: repoName + ' ' + currentSort,
                 first: rowsPerPage,
                 after: null,
             })
