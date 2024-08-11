@@ -16,128 +16,14 @@ import { formatDate } from '../../utils/functions/formatDate';
 import { TRepoNode } from '../../types/t-seach-repositories-response';
 import { TableSortCell } from './components/table-sort-cell/table-sort-cell';
 import { TSorts } from '../../types/t-sorts';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { searchRepositories, setSorts } from '../../store/slices/github-slice';
 
 export type TRepoTableProps = {
     data: TRepoNode[];
     sorts: TSorts;
-    repoName: string;
-    rowsPerPage: number;
+    handlerOnClickSort: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export const RepoTable = ({
-    data,
-    sorts,
-    repoName,
-    rowsPerPage,
-}: TRepoTableProps) => {
-    const dispatch = useAppDispatch();
-
-    const handlerOnClickSort = (e: MouseEvent<HTMLButtonElement>) => {
-        switch (e.currentTarget.id) {
-            case 'forks':
-                if (sorts.forks === 'sort:forks-asc') {
-                    dispatch(
-                        setSorts({
-                            forks: 'sort:forks-desc',
-                            stars: null,
-                            updatedAt: null,
-                        })
-                    );
-                    dispatch(
-                        searchRepositories({
-                            name: repoName + ' sort:forks-desc',
-                            first: rowsPerPage,
-                            after: null,
-                        })
-                    );
-                } else {
-                    dispatch(
-                        setSorts({
-                            forks: 'sort:forks-asc',
-                            stars: null,
-                            updatedAt: null,
-                        })
-                    );
-                    dispatch(
-                        searchRepositories({
-                            name: repoName + ' sort:forks-asc',
-                            first: rowsPerPage,
-                            after: null,
-                        })
-                    );
-                }
-                break;
-            case 'stars':
-                if (sorts.stars === 'sort:stars-asc') {
-                    dispatch(
-                        setSorts({
-                            forks: null,
-                            stars: 'sort:stars-desc',
-                            updatedAt: null,
-                        })
-                    );
-                    dispatch(
-                        searchRepositories({
-                            name: repoName + ' sort:stars-desc',
-                            first: rowsPerPage,
-                            after: null,
-                        })
-                    );
-                } else {
-                    dispatch(
-                        setSorts({
-                            forks: null,
-                            stars: 'sort:stars-asc',
-                            updatedAt: null,
-                        })
-                    );
-                    dispatch(
-                        searchRepositories({
-                            name: repoName + ' sort:stars-asc',
-                            first: rowsPerPage,
-                            after: null,
-                        })
-                    );
-                }
-                break;
-            case 'updatedAt':
-                if (sorts.updatedAt === 'sort:updated-asc') {
-                    dispatch(
-                        setSorts({
-                            forks: null,
-                            stars: null,
-                            updatedAt: 'sort:updated-desc',
-                        })
-                    );
-                    dispatch(
-                        searchRepositories({
-                            name: repoName + ' sort:updated-desc',
-                            first: rowsPerPage,
-                            after: null,
-                        })
-                    );
-                } else {
-                    dispatch(
-                        setSorts({
-                            forks: null,
-                            stars: null,
-                            updatedAt: 'sort:updated-asc',
-                        })
-                    );
-                    dispatch(
-                        searchRepositories({
-                            name: repoName + ' sort:updated-asc',
-                            first: rowsPerPage,
-                            after: null,
-                        })
-                    );
-                }
-                break;
-        }
-    };
-
+export const RepoTable = ({ data, sorts, handlerOnClickSort }: TRepoTableProps) => {
     return (
         <Box>
             <Typography variant="h3">Результаты поиска</Typography>

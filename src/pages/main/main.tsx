@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { Alert, Box, CircularProgress, SelectChangeEvent } from '@mui/material';
 import { Intro } from '../../components/intro/intro';
 import { RepoTable } from '../../components/repo-table/repo-table';
@@ -24,6 +24,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {
     searchRepositories,
     setRowsPerPage,
+    setSorts,
 } from '../../store/slices/github-slice';
 
 export const Main: React.FC = () => {
@@ -52,6 +53,110 @@ export const Main: React.FC = () => {
         );
     };
 
+    const handlerOnClickSort = (e: MouseEvent<HTMLButtonElement>) => {
+        switch (e.currentTarget.id) {
+            case 'forks':
+                if (sorts.forks === 'sort:forks-asc') {
+                    dispatch(
+                        setSorts({
+                            forks: 'sort:forks-desc',
+                            stars: null,
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:forks-desc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setSorts({
+                            forks: 'sort:forks-asc',
+                            stars: null,
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:forks-asc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                }
+                break;
+            case 'stars':
+                if (sorts.stars === 'sort:stars-asc') {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: 'sort:stars-desc',
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:stars-desc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: 'sort:stars-asc',
+                            updatedAt: null,
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:stars-asc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                }
+                break;
+            case 'updatedAt':
+                if (sorts.updatedAt === 'sort:updated-asc') {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: null,
+                            updatedAt: 'sort:updated-desc',
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:updated-desc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setSorts({
+                            forks: null,
+                            stars: null,
+                            updatedAt: 'sort:updated-asc',
+                        })
+                    );
+                    dispatch(
+                        searchRepositories({
+                            name: repoName + ' sort:updated-asc',
+                            first: rowsPerPage,
+                            after: null,
+                        })
+                    );
+                }
+                break;
+        }
+    };
+
     return (
         <main className={styles.main}>
             {searchError && <Alert severity="error">{searchError}</Alert>}
@@ -68,8 +173,7 @@ export const Main: React.FC = () => {
                     <RepoTable
                         data={searchResults}
                         sorts={sorts}
-                        repoName={repoName}
-                        rowsPerPage={rowsPerPage}
+                        handlerOnClickSort={handlerOnClickSort}
                     />
                     <Box
                         sx={{
