@@ -43,7 +43,7 @@ export const Main: React.FC = () => {
             )}
             {repositoryCount && (
                 <aside className={styles.leftSideBar}>
-                    <RepoTable data={searchResults} count={rowsPerPage}/>
+                    <RepoTable data={searchResults} />
                     <Box
                         sx={{
                             height: '52px',
