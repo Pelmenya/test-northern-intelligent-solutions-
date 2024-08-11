@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
-export const searchRepositoriesQuery = gql`
-query($name: String!, $first: Int!) {
-  search(query: $name, type: REPOSITORY, first: $first) {
+export const searchRepositoriesBeforeQuery = gql`
+query($name: String!, $last: Int!, $before: String) {
+  search(query: $name, type: REPOSITORY, last: $last, before: $before) {
     repositoryCount
     pageInfo {
       startCursor

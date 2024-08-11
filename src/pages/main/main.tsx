@@ -23,6 +23,8 @@ import { Pagination } from '../../components/pagination/pagination';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {
     searchRepositories,
+    searchRepositoriesAfter,
+    searchRepositoriesBefore,
     setRowsPerPage,
     setSorts,
 } from '../../store/slices/github-slice';
@@ -49,8 +51,6 @@ export const Main: React.FC = () => {
             searchRepositories({
                 name: searchString,
                 first: Number(e.target.value),
-                before: null,
-                after: null,
             })
         );
     };
@@ -70,8 +70,6 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:forks-desc',
                             first: rowsPerPage,
-                            before: null,
-                            after: null,
                         })
                     );
                 } else {
@@ -86,8 +84,6 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:forks-asc',
                             first: rowsPerPage,
-                            before: null,
-                            after: null,
                         })
                     );
                 }
@@ -105,8 +101,6 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:stars-desc',
                             first: rowsPerPage,
-                            before: null,
-                            after: null,
                         })
                     );
                 } else {
@@ -121,8 +115,6 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:stars-asc',
                             first: rowsPerPage,
-                            before: null,
-                            after: null,
                         })
                     );
                 }
@@ -140,8 +132,6 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:updated-desc',
                             first: rowsPerPage,
-                            before: null,
-                            after: null,
                         })
                     );
                 } else {
@@ -156,8 +146,6 @@ export const Main: React.FC = () => {
                         searchRepositories({
                             name: repoName + ' sort:updated-asc',
                             first: rowsPerPage,
-                            before: null,
-                            after: null,
                         })
                     );
                 }
@@ -166,15 +154,12 @@ export const Main: React.FC = () => {
     };
 
     const handlerNextPage = () => {
-        console.log(endCursor)
-
         if (endCursor) {
             dispatch(
-                searchRepositories({
+                searchRepositoriesAfter({
                     name: searchString,
                     first: rowsPerPage,
                     after: endCursor,
-                    before: null
                 })
             );
         }
@@ -183,11 +168,10 @@ export const Main: React.FC = () => {
     const handlerPreviousPage = () => {
         if (startCursor) {
             dispatch(
-                searchRepositories({
+                searchRepositoriesBefore({
                     name: searchString,
-                    first: rowsPerPage,
+                    last: rowsPerPage,
                     before: startCursor,
-                    after: null,
                 })
             );
         }
