@@ -2,10 +2,8 @@ import React, { FocusEvent, MouseEvent } from 'react';
 import {
     Alert,
     Box,
-    Chip,
     CircularProgress,
     SelectChangeEvent,
-    Stack,
     Typography,
 } from '@mui/material';
 import { Intro } from '../../components/intro/intro';
@@ -41,7 +39,7 @@ import {
     setSorts,
 } from '../../store/slices/github-slice';
 import { getNotNullValueFromObject } from '../../utils/functions/get-not-null-value-from-object';
-import { wrap } from 'module';
+import { RepoInfo } from '../../components/repo-info/repo-info';
 
 export const Main: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -58,9 +56,6 @@ export const Main: React.FC = () => {
     const paginationBatch = useAppSelector(selectPaginationBatch);
     const sorts = useAppSelector(selectSorts);
     const currentRepo = useAppSelector(selectCurrentRepo);
-    const topics = currentRepo?.repositoryTopics?.nodes?.map(
-        (node) => node.topic.name
-    );
 
     const currentSort = getNotNullValueFromObject(sorts);
     const searchString = repoName + ' ' + currentSort;
@@ -262,30 +257,7 @@ export const Main: React.FC = () => {
                     </aside>
                     <aside className={styles.rightSideBar}>
                         {currentRepo ? (
-                            <>
-                                {' '}
-                                <Typography
-                                    variant="h4"
-                                    sx={{ fontSize: '32px' }}
-                                >
-                                    {currentRepo.name}
-                                </Typography>
-                                <Stack
-                                    direction="row"
-                                    sx={{ flexWrap: 'wrap' }}
-                                >
-                                    {topics &&
-                                        topics.map((topic) => (
-                                            <Chip
-                                                label={topic}
-                                                sx={{
-                                                    marginBottom: '8px',
-                                                    marginRight: '8px',
-                                                }}
-                                            />
-                                        ))}
-                                </Stack>
-                            </>
+                            <RepoInfo currentRepo={currentRepo} />
                         ) : (
                             <Intro>
                                 <Typography variant="body2">

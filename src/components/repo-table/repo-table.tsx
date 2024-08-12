@@ -30,7 +30,7 @@ export const RepoTable = ({
     sorts,
     handlerOnClickSort,
     handlerOnFocusTableRow,
-    handlerOnBlurTableRow
+    handlerOnBlurTableRow,
 }: TRepoTableProps) => {
     return (
         <Box>
@@ -103,6 +103,8 @@ export const RepoTable = ({
                                 whiteSpace: 'wrap',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
+                                opacity: 1,
+                                color: 'text.secondary',
                             },
                         }}
                     >
@@ -124,8 +126,11 @@ export const RepoTable = ({
                                             whiteSpace: 'wrap',
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
+                                            opacity: 1,
+                                            color: 'text.secondary',
                                         },
                                     },
+
                                     {
                                         '&:focus': {
                                             backgroundColor: 'secondary.dark',
