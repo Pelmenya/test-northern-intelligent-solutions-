@@ -12,12 +12,13 @@ import {
     selectRowsPerPage,
     selectSorts,
 } from '../../store/selectors/github-selectors';
+import { getNotNullValueFromObject } from '../../utils/functions/get-not-null-value-from-object';
 
 export const SearchBar: React.FC = () => {
     const dispatch = useAppDispatch();
     const rowsPerPage = useAppSelector(selectRowsPerPage);
     const sorts = useAppSelector(selectSorts);
-    const currentSort = Object.values(sorts).filter((item) => item !== null);
+    const currentSort = getNotNullValueFromObject(sorts);
     const [repoName, setRepoName] = useState('');
 
     const handleSearch = () => {

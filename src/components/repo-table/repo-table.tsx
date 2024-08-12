@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import {
     Typography,
     TableContainer,
@@ -12,23 +11,36 @@ import {
 } from '@mui/material';
 
 import {} from '../../store/selectors/github-selectors';
-import { formatDate } from '../../utils/functions/formatDate';
+import { formatDate } from '../../utils/functions/format-date';
 import { TRepoNode } from '../../types/t-seach-repositories-response';
 import { TableSortCell } from './components/table-sort-cell/table-sort-cell';
 import { TSorts } from '../../types/t-sorts';
+import { FocusEvent, MouseEvent } from 'react';
 
 export type TRepoTableProps = {
     data: TRepoNode[];
     sorts: TSorts;
     handlerOnClickSort: (e: MouseEvent<HTMLButtonElement>) => void;
+    handlerOnFocusTableRow: (e: FocusEvent<HTMLTableRowElement>) => void;
+    handlerOnBlurTableRow: (e: FocusEvent<HTMLTableRowElement>) => void;
 };
 
-export const RepoTable = ({ data, sorts, handlerOnClickSort }: TRepoTableProps) => {
+export const RepoTable = ({
+    data,
+    sorts,
+    handlerOnClickSort,
+    handlerOnFocusTableRow,
+    handlerOnBlurTableRow
+}: TRepoTableProps) => {
     return (
         <Box>
             <Typography variant="h3">Результаты поиска</Typography>
             <TableContainer
-                sx={{ boxShadow: 'none', marginTop: '24px' }}
+                sx={{
+                    boxShadow: 'none',
+                    marginTop: '24px',
+                    backgroundColor: 'primary.light',
+                }}
                 component={Paper}
             >
                 <Table
@@ -96,6 +108,10 @@ export const RepoTable = ({ data, sorts, handlerOnClickSort }: TRepoTableProps) 
                     >
                         {data.map((repo) => (
                             <TableRow
+                                tabIndex={0}
+                                id={repo.id}
+                                onFocus={handlerOnFocusTableRow}
+                                onBlur={handlerOnBlurTableRow}
                                 key={repo.id}
                                 sx={[
                                     {
@@ -108,6 +124,17 @@ export const RepoTable = ({ data, sorts, handlerOnClickSort }: TRepoTableProps) 
                                             whiteSpace: 'wrap',
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
+                                        },
+                                    },
+                                    {
+                                        '&:focus': {
+                                            backgroundColor: 'secondary.dark',
+                                        },
+                                    },
+                                    {
+                                        '&:hover': {
+                                            backgroundColor: 'secondary.dark',
+                                            cursor: 'pointer',
                                         },
                                     },
                                 ]}

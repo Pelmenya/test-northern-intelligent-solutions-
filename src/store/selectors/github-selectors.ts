@@ -12,3 +12,4 @@ export const selectRepositoryCount = (state: RootState) => state.github.reposito
 export const selectSearchRepoName = (state: RootState) => state.github.searchRepoName;
 export const selectSorts = (state: RootState) => state.github.sorts;
 export const selectPaginationBatch = (state: RootState) => state.github.paginationBatch;
+export const selectCurrentRepo = (state: RootState) => state.github.currentRepo;

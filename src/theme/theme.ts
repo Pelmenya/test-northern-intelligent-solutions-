@@ -8,21 +8,21 @@ export const theme = createTheme({
         text: {
             primary: '#4F4F4F',
             secondary: greyMain,
-            disabled: '#ffffff',
+            disabled: '#FFFFFF',
         },
         background: {
             default: '#4F4F4F',
-            paper: '#fff',
+            paper: '#F2F2F2',
         },
         primary: {
             main: '#2196F3',
-            light: '#ffffff',
+            light: '#FFFFFF',
             dark: greyMain,
-            contrastText: '#ffffff',
+            contrastText: '#FFFFFF',
         },
         secondary: {
             main: '#00838F',
-            dark: '#fff'
+            dark: 'rgba(33, 150, 243, 0.04)'
         },
     },
 });

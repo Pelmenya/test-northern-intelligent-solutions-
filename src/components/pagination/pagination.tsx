@@ -65,18 +65,18 @@ export const Pagination = ({
                     id="back"
                     onClick={handlerPreviousPage}
                     disabled={!hasPreviousPage}
+                    sx={[{ opacity: 0.56 }, { '&:hover': { opacity: 1 } }]}
                 >
-                    <ArrowBackIosIcon
-                        sx={{ height: '12px', width: '12px', opacity: '.56' }}
-                    />
+                    <ArrowBackIosIcon sx={{ height: '12px', width: '12px' }} />
                 </ButtonBase>
                 <ButtonBase
                     id="forward"
                     onClick={handlerNextPage}
                     disabled={!hasNextPage}
+                    sx={[{ opacity: 0.56 }, { '&:hover': { opacity: 1 } }]}
                 >
                     <ArrowForwardIosIcon
-                        sx={{ height: '12px', width: '12px', opacity: '.56' }}
+                        sx={{ height: '12px', width: '12px' }}
                     />
                 </ButtonBase>
             </Box>

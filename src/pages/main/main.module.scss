@@ -2,17 +2,31 @@
     background-color: #fff;
     min-height: calc(100vh - 112px);
     height: calc(100vh - 112px);
+    display: flex;
 }
 
 .leftSideBar {
     height: 100%;
     padding-left: 32px;
     padding-top: 24px;
+    padding-right: 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 24px;
     justify-content: space-between;
-    width: 960px;
+    width: 66%;
     max-width: 960px;
+}
+
+.rightSideBar {
+    height: 100%;
+    padding-left: 24px;
+    padding-right: 32px;
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 34%;
+    max-width: 500px;
+    background-color: rgba(242, 242, 242, 1);
 }

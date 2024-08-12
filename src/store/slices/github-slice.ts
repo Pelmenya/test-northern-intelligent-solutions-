@@ -24,6 +24,7 @@ interface GithubState {
   repositoryCount: number | null;
   sorts: TSorts;
   paginationBatch: number;
+  currentRepo: TRepoNode | null
 }
 
 const initialState: GithubState = {
@@ -42,7 +43,8 @@ const initialState: GithubState = {
     stars: null,
     updatedAt: 'sort:updated-desc'
   },
-  paginationBatch: initialRowsPerPage
+  paginationBatch: initialRowsPerPage,
+  currentRepo: null
 }
 
 // Асинхронный thunk для поиска репозиториев
@@ -88,6 +90,9 @@ const githubSlice = createSlice({
     setPaginationBatch(state, action: PayloadAction<number>) {
       state.paginationBatch = action.payload;
     },
+    setCurrentRepo(state, action: PayloadAction<TRepoNode | null>) {
+      state.currentRepo = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -152,7 +157,8 @@ export const {
   setRowsPerPage,
   setSeachRepoName,
   setSorts, 
-  setPaginationBatch
+  setPaginationBatch,
+  setCurrentRepo
 } = githubSlice.actions;
 
 export const githubReducer = githubSlice.reducer;
