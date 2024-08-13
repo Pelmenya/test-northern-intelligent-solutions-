@@ -1,4 +1,4 @@
-# [Сайт GitHub-Viewer](https://test.top-hotels.su)
+# [Ссылка на сайт GitHub-Viewer](https://test.top-hotels.su)
 
 # Тестовое задание
 
