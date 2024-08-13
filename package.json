@@ -1,6 +1,7 @@
 {
   "name": "test-northern-intelligent-solutions",
   "version": "0.1.0",
+  "main": "server.ts",
   "private": true,
   "dependencies": {
     "@emotion/react": "11.13.0",
@@ -16,8 +17,9 @@
     "@types/node": "16.18.104",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
+    "@types/redux-logger": "^3.0.12",
+    "express": "4.19.2",
     "graphql-request": "4.3.0",
-    "http-proxy-middleware": "^3.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-redux": "8.0.5",
@@ -30,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "npm run build && nodemon -L"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +55,8 @@
   },
   "proxy": "https://api.github.com",
   "devDependencies": {
-    "redux-logger": "3.0.6"
+    "nodemon": "3.1.4",
+    "redux-logger": "3.0.6",
+    "ts-node": "10.9.2"
   }
 }
