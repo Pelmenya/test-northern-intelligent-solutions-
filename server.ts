@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import { GraphQLClient } from 'graphql-request';
 
-const endpoint = process.env.SERVER_GQL_ENDPOINT|| '/graphql';
+const endpoint = process.env.SERVER_GQL_ENDPOINT || '/graphql';
 
 const token = process.env.REACT_APP_GITHUB_TOKEN;
 
@@ -28,10 +28,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Проксирование запросов на /graphql к API GitHub
-app.post('/graphql', async (req: Request, res: Response, next:NextFunction) => {
+app.post('/graphql', (req: Request, res: Response, next: NextFunction) => {
+  const handler = async () => {
     const { query, variables } = req.body;
     const response = await client.request(query, variables);
-    res.json({ data: response});
+    res.json({ data: response });
+  };
+  handler().catch((err) => res.json({ data: err }))
 })
 
 // Обслуживание статических файлов из директории build
